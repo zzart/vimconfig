@@ -1,0 +1,1 @@
+vimcommander_0.80.vba: call delete('/home/mars/.vim/plugins/vimcommander/doc/vimcommander.txt')|call delete('/home/mars/.vim/plugins/vimcommander/plugin/vimcommander.vim')

@@ -1,0 +1,305 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Encoding
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set enc=utf-8
+set fileencoding=utf-8
+set fileencodings=utf-8,latin1
+set printencoding=utf-8
+scriptencoding utf-8
+set pdev=HP_LaserJet_1020
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Defautls
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+call pathogen#infect('plugins')
+call pathogen#runtime_append_all_bundles()
+call pathogen#helptags()
+let mapleader=","  "we are changing <leader>
+set hidden  "this lets you have unsaved buffers !!
+"set autowrite           "  saves if switching buffers
+set showmatch           "  show matching brace
+colorscheme delek " molokai mustang ir_black
+"set cursorline
+"highlight CursorLine guibg=lightblue ctermbg=black
+highlight CursorLine guibg=lightblue ctermbg=red
+set ruler
+set showcmd
+set ignorecase    " ignore case when searching
+set smartcase " if u search with upper case so be it otherwise use lower at all times
+nnoremap / /\v
+vnoremap / /\v
+set gdefault " this means GLOBAL -just type %s/search/replace/
+"nnoremap <tab> %
+"vnoremap <tab> %
+nnoremap j gj
+nnoremap k gk
+set cryptmethod=blowfish " set stronger encription
+set printoptions=paper:A4,syntax:y,wrap:y
+" new in 7.3 .............................................
+" swp files
+set directory=~/.vim/tmp
+" undo files
+set undodir=~/.vim/tmp
+set undofile
+set undolevels=1000 "maximum number of changes that can be undone
+set undoreload=10000 "maximum number lines to save for undo on a buffer reload
+set clipboard+=unnamed
+set nobackup
+"set noswapfile "get rid of annoying swp files
+" crtlp
+let g:ctrlp_custom_ignore = '\.swp$\|\.git$\|\.hg$\|\.svn$\|\.pyc$' "this is for ctrlp plugin
+set wildignore+=*/node/*,*.so,*.swp,*.zip,*.png,*.jpg
+let g:ctrlp_by_filename = 1
+let g:ctrlp_working_path_mode = 'r'
+"let g:ctrlp_cmd = 'CtrlP /home/mars/Dropbox/www/om'
+"let g:ctrlp_cmd = 'CtrlP /home/mars/Dropbox/www/omf'
+" let g:Powerline_symbols = 'fancy'  "this is for fancy bottom line status bar
+" no splash screen
+set shortmess+=I
+" replaces globally and add g for a single line substitutions
+set gdefault
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Source files
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"source $VIMRUNTIME/mswin.vim
+"noremap <c-v> <esc>:set paste<cr>"+gp<esc>:set nopaste<enter>i<right /></enter></esc></cr></esc></c-v>
+runtime macros/matchit.vim
+set viewdir=$HOME/.vim/sessions "for sessions
+"autocmd BufRead *.as set filetype=actionscript
+source ~/.vim/abrivations.vim
+"source ~/.vim/plugins/minibufexplorer/minibufexpl.vim
+"source ~/.vim/plugins/vimroom/vimroom.vim
+source ~/.vim/plugins/matchit/matchit.vim
+let Tlist_Ctags_Cmd = "/usr/bin/ctags"
+"let g:tagbar_ctags_bin="/home/mars/Dropbox/system/vim/plugins/ctags"
+let g:ctags_statusline=1
+let g:vimwiki_list = [{'path': '~/Dropbox/system/wiki/pixey', 'path_html': '~/Dropbox/system/wiki/html', 'auto_export':1},
+            \ {'path': '~/Dropbox/www/om/doc/wiki', 'path_html': '~/Dropbox/www/om/doc/wiki/html', 'auto_export':1},
+            \ {'path': '~/Dropbox/www/mp/wiki', 'ext': '.md', 'syntax': 'markdown', 'index': 'Home' },
+            \ {'path': '~/Dropbox/system/wiki/personal'}]
+set tags+=$HOME/zielonymagazyn/tags "tags
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Editing
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" disable arrow keys
+"map <up> <nop>
+"map <down> <nop>
+"map <left> <nop>
+"map <right> <nop>
+"imap <up> <nop>
+"imap <down> <nop>
+"imap <left> <nop>
+"imap <right> <nop>
+"imap <ESC> <nop>
+"map <ESC> <nop>
+map <C-B> <C-V>
+imap <C-B> <C-V>
+" commenting out lines
+nmap <Leader><Space> <Esc>:CtrlPBuffer<CR>
+imap <Leader>pp <C-r>+
+map <Leader>/ :s/^/#/<CR>
+map ]/ :s/\/\//<CR>
+" needs to be below arrows
+map ;j<Space>           <Esc>:w<CR><Esc>
+imap ;j<Space>           <Esc>:w<CR><Esc>
+" Maps for jj to act as Esc
+ino kj <esc>
+ino kj <esc>
+cno jj <c-c>
+cno jj <c-c>
+set spelllang=pl  " ustawiamy polski
+set cpoptions+=$  " ustawiamy koniec słowa za pomocą znaku $
+set virtualedit=all  " możliwość przemieszczania kursora po pustych polach
+:map! <C-F> <Esc>gUiw`]a
+nmap <silent> cp "_cw<C-R>"<Esc>
+" this replaces yanked word
+"""""""""""""""""""""""""from msvim
+vnoremap <C-C> "+y
+nmap <leader>tt <Plug>VimwikiToggleListItem " for doto lists
+let g:vimwiki_hl_cb_checked=1
+" CTRL-A is Select all
+noremap <leader>a gggH<C-O>G
+inoremap <leader>a <C-O>gg<C-O>gH<C-O>G
+cnoremap <leader>a <C-C>gggH<C-O>G
+onoremap <leader>a <C-C>gggH<C-O>G
+snoremap <leader>a <C-C>gggH<C-O>G
+xnoremap <leader>a <C-C>ggVG
+" CTRL-Tab is Next window
+noremap <C-Tab> <esc>:bnext<cr>
+inoremap <C-Tab> <esc>:bnext<cr>
+cnoremap <C-Tab> <esc>:bnext<cr>
+onoremap <C-Tab> <esc>:bnext<cr>
+"""""""""""""""""""""""""from msvim
+"django
+"imap wq {%%}<esc><left>i
+"imap qw {{}}<esc><left>i
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Indent
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"set nowrap " don't wrap lines
+set tabstop=4 " tab is 4 spaces
+set expandtab
+set smarttab
+set smartindent    " smart indent of code - indent after opening '{',
+set autoindent
+set copyindent    " copy the previous indentation on autoindenting
+set shiftwidth=4  " number of spaces to use for autoindenting
+set shiftround    " use multiple of shiftwidth when indenting with '<' and '>'
+set smarttab      " insert tabs on the start of a line according to  shiftwidth, not tabstop
+" to jest do vimWiki
+set nocompatible
+filetype plugin indent on
+"set foldmethod=indent
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Python
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+syntax on
+"this replaces spaces with dots during writing
+"autocmd FileType python set list
+"autocmd FileType python set listchars=tab:>.,trail:.,extends:#,nbsp:.
+"map <F3> :!python %<cr>  "interpretor
+"set keywordprg=!python "interpretor
+"map <F2> :ConqueTerm bpython manage.py shell<cr> "documentation (cursor needs to be on the subject of interest)
+let Tlist_Use_Right_Window = 1
+set omnifunc=pysmell#Complete
+autocmd FileType python set omnifunc=pysmell#Complete
+autocmd FileType python set omnifunc=pythoncomplete#Complete
+"let g:SuperTabDefaultCompletionType = "context"
+set completeopt=menuone,longest,preview
+autocmd BufRead *.py inoremap # X<c-h>#<space>
+autocmd BufWritePre * :%s/\s\+$//e "remove all trailing whitespaces on save
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Coffescript
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"noremap <Leader>zz :!coffee %<cr>
+"autocmd BufWritePost,FileWritePost *.coffee silent CoffeeMake! -o /home/mars/www/omf/app/js/bon/ " compile coffee files on every save
+"autocmd BufWritePost,FileWritePost *.coffee silent execute 'CoffeeMake! -o '.expand('%:p:h:s?cs?js?')
+"autocmd BufWritePost,FileWritePost *.eco silent !eco %
+"autocmd BufWritePost,FileWritePost *.coffee silent execute 'CoffeeMake! -o '.expand('%:p:h')
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" NAVIGATION keys
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" NERDTREE
+let g:NERDTreeBookmarksFile = expand($HOME.'/Dropbox/system/vim/.NERDTreeBookmarks')
+let g:NERDTreeShowBookmarks = 1
+"let g:NERDTreeChDirMode = 1
+"let g:NERDTreeWinPos ="right"
+"let g:NERDTreeWinSize = 45
+"let g:NERDTreeChristmasTree = 1
+"let g:NERDTreeCaseSensitiveSort = 1
+"let g:NERDTreeQuitOnOpen = 1
+"let g:NERDTreeMouseMode=2
+"let g:NERDTreeIgnore=[
+"      \'\.pyc$', '\.pyo$', '\.py\$class$', '\.obj$',
+"      \ '\.o$', '\.so$', '\.egg$', '^\.git$', '^\.svn$' ]
+
+
+nnoremap <silent> <F8> :TlistToggle<CR>
+nmap <F5> :TagbarToggle<CR>
+nmap <silent> <F4> :NERDTreeToggle<CR>
+autocmd BufEnter * lcd %:p:h
+"nmap <silent> <F6> <Leader>mbt<CR>
+nmap <silent> <F6> :TagbarToggle<CR>
+"borwser
+noremap <silent> <F11> :cal VimCommanderToggle()<CR>
+nmap <F7> :set number!<CR>
+nmap <F8> :set paste!<CR>
+:autocmd BufNewFile * silent! 0r $HOME/.vim/templates/%:e.tpl
+"for inserting blank lines
+nmap <S-Enter> O<Esc>
+nmap <CR> o<Esc>k
+"for jumping to <+ marks
+nnoremap <c-j> /<+.\{-1,}+><cr>c/+>/e<cr>
+inoremap <c-j> <ESC>/<+.\{-1,}+><cr>c/+>/e<cr>
+nnoremap <leader>w <C-w>v<C-w>l
+map <c-j> <c-w>j
+map <c-k> <c-w>k
+map <c-l> <c-w>l
+map <c-h> <c-w>h
+"for tabs
+map <A-1> <Esc>:b1<cr>
+map <A-2> <Esc>:b2<cr>
+map <A-3> <Esc>:b3<cr>
+map <A-4> <Esc>:b4<cr>
+map <A-5> <Esc>:b5<cr>
+map <A-6> <Esc>:b6<cr>
+map <A-7> <Esc>:b7<cr>
+map <A-8> <Esc>:b8<cr>
+map <A-9> <Esc>:b9<cr>
+map <A-0> <Esc>:b#<cr>
+map <A--> <Esc>:bprevious<cr>
+map <A-=> <Esc>:bnext<cr>
+function! Tab_Or_Complete()
+  if col('.')>1 && strpart( getline('.'), col('.')-2, 3 ) =~ '^\w'
+    return "\<C-N>"
+  else
+    return "\<Tab>"
+  endif
+endfunction
+:inoremap <Tab> <C-R>=Tab_Or_Complete()<CR>
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" set syntax for different filetypes
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+au BufRead,BufNewFile *.less set filetype=less
+autocmd FileType less set syntax=css
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" other unused
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" modify selected text using combining diacritics
+command! -range -nargs=0 Overline        call s:CombineSelection(<line1>, <line2>, '0305')
+command! -range -nargs=0 Underline       call s:CombineSelection(<line1>, <line2>, '0332')
+command! -range -nargs=0 DoubleUnderline call s:CombineSelection(<line1>, <line2>, '0333')
+command! -range -nargs=0 Strikethrough   call s:CombineSelection(<line1>, <line2>, '0336')
+
+function! s:CombineSelection(line1, line2, cp)
+  execute 'let char = "\u'.a:cp.'"'
+  execute a:line1.','.a:line2.'s/\%V[^[:cntrl:]]/&'.char.'/ge'
+endfunction
+" Remap code completion to Ctrl+Space {{{2
+"inoremap <S-N> <C-x><C-o>
+"super tab completion
+"let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
+"how to do omni ??
+        "nmap <silent> <F12> <Plug>ToggleProject
+"let potwiki_home = "$HOME/Documents/wiki"
+"nmap \wh <Plug>PotwikiHome
+"let potwiki_other = 'w_*'
+" TA LINIA WYLANCZA WIKI PLUGIN ... NIE WIEM CZEMU ALE PLUGIN UNIEMOZLIWIA HIGHLIGHTING . JESLI WIKI MA CHODZIC TO WSTAW KOMANTARZ NA MIEJSCE
+"let loaded_potwiki = 1
+" scieżka referencji do syntaxu processing
+"let pref="/home/mars/Documents/programing/processing-1.1/reference/"
+"folds
+"map zR za
+"map zM zx
+"map <F2> <Leader>pw
+":let $DJANGO_SETTINGS_MODULE='zielonymagazyn.settings'
+"autocmd FileType python set complete+=k~/.vim/syntax/python.vim isk+=.,(
+"autocmd FileType python set omnifunc=pythoncomplete#Complete
+"let g:pydiction_location = '/home/mars/.vim/pydiction/complete-dict'
+"
+"this is for auto closing brackets
+":imap ( ()<left>
+":imap { {}<left>
+"
+" YoU Might also find this useful
+" PHP Generated Code Highlights (HTML & SQL)
+"
+"autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+"autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+"autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+"autocmd FileType sql set omnifunc=sqlcomplete#Complete
+"php interpreter
+"map <C-B> :!php -l %
+"nerdtree! , line nrs and tags
+" php options
+"let php_htmlInStrings=1
+"let php_sql_query=1
+"let php_folding = 1
+"--- windowing -----------------
+" be able to scroll through opened files easily with ctrl+j/k
+"let g:miniBufExplMapWindowNavVim = 1
+"---------------------------------------------------
+"--<F keys> except python related-------------------
+"---------------------------------------------------
+"mamy 2 wiki każda musi być wylistowana w oddzielnych nawiasach
+"reload vimrc
+"cno <F3> :so /home/mars/.vimrc
