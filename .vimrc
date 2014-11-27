@@ -16,18 +16,25 @@ call pathogen#helptags()
 let mapleader=","  "we are changing <leader>
 set hidden  "this lets you have unsaved buffers !!
 "set autowrite           "  saves if switching buffers
-set showmatch           "  show matching brace
 colorscheme delek " molokai mustang ir_black
+set ttyfast
+"set relativenumber
 "set cursorline
 "highlight CursorLine guibg=lightblue ctermbg=black
 highlight CursorLine guibg=lightblue ctermbg=red
 set ruler
+set wildmenu
+set wildmode=list:longest
 set showcmd
+set showmatch           "  show matching brace
+set showmode
 set ignorecase    " ignore case when searching
 set smartcase " if u search with upper case so be it otherwise use lower at all times
 nnoremap / /\v
 vnoremap / /\v
 set gdefault " this means GLOBAL -just type %s/search/replace/
+set scrolloff=7
+nnoremap <leader>m :noh<cr>
 "nnoremap <tab> %
 "vnoremap <tab> %
 nnoremap j gj
@@ -47,7 +54,7 @@ set nobackup
 "set noswapfile "get rid of annoying swp files
 " crtlp
 let g:ctrlp_custom_ignore = '\.swp$\|\.git$\|\.hg$\|\.svn$\|\.pyc$' "this is for ctrlp plugin
-set wildignore+=*/node/*,*.so,*.swp,*.zip,*.png,*.jpg
+set wildignore+=*/node/*,*/node_modules/*,*/libs/*,*.so,*.swp,*.zip,*.png,*.swf,*.pdf,*.eot,*.ttf,*.woff,*.bmp,*.svg,*.jpg,*.gif,*/userfiles/*,*/static/*,*.pyc
 let g:ctrlp_by_filename = 1
 let g:ctrlp_working_path_mode = 'r'
 "let g:ctrlp_cmd = 'CtrlP /home/mars/Dropbox/www/om'
@@ -55,12 +62,12 @@ let g:ctrlp_working_path_mode = 'r'
 " let g:Powerline_symbols = 'fancy'  "this is for fancy bottom line status bar
 " no splash screen
 set shortmess+=I
-" replaces globally and add g for a single line substitutions
-set gdefault
+nnoremap <leader>a :Ack
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Source files
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "source $VIMRUNTIME/mswin.vim
+source ~/.vim/plugins/tasklist/tasklist.vim
 "noremap <c-v> <esc>:set paste<cr>"+gp<esc>:set nopaste<enter>i<right /></enter></esc></cr></esc></c-v>
 runtime macros/matchit.vim
 set viewdir=$HOME/.vim/sessions "for sessions
@@ -70,16 +77,70 @@ source ~/.vim/abrivations.vim
 "source ~/.vim/plugins/vimroom/vimroom.vim
 source ~/.vim/plugins/matchit/matchit.vim
 let Tlist_Ctags_Cmd = "/usr/bin/ctags"
-"let g:tagbar_ctags_bin="/home/mars/Dropbox/system/vim/plugins/ctags"
 let g:ctags_statusline=1
-let g:vimwiki_list = [{'path': '~/Dropbox/system/wiki/pixey', 'path_html': '~/Dropbox/system/wiki/html', 'auto_export':1},
-            \ {'path': '~/Dropbox/www/om/doc/wiki', 'path_html': '~/Dropbox/www/om/doc/wiki/html', 'auto_export':1},
-            \ {'path': '~/Dropbox/www/mp/wiki', 'ext': '.md', 'syntax': 'markdown', 'index': 'Home' },
-            \ {'path': '~/Dropbox/system/wiki/personal'}]
-set tags+=$HOME/zielonymagazyn/tags "tags
+"tags for Coffeescrpt
+"----------------------
+"let g:tagbar_type_coffee = {'ctagstype': 'coffee', 'kinds': ['c:classes' ,'m:methods' ,'f:functions', 'v:variables', 'f:fields',]}
+let g:tagbar_type_coffee = {
+    \ 'ctagstype' : 'coffee',
+    \ 'kinds'     : [
+        \ 'c:classes',
+        \ 'm:methods',
+        \ 'f:functions',
+        \ 'v:variables',
+        \ 'f:fields',
+    \ ]
+    \ }
+let s:ctags_opts = '
+  \ --langdef=coffee
+  \ --langmap=coffee:.coffee
+  \ --regex-coffee=/(^|=[ \t])*class ([A-Za-z_][A-Za-z0-9_]+\.)*([A-Za-z_][A-Za-z0-9_]+)( extends ([A-Za-z][A-Za-z0-9_.]*)+)?$/\3/c,class/
+  \ --regex-coffee=/^[ \t]*(module\.)?(exports\.)?@?(([A-Za-z][A-Za-z0-9_.]*)+):.*[-=]>.*$/\3/m,method/
+  \ --regex-coffee=/^[ \t]*(module\.)?(exports\.)?(([A-Za-z][A-Za-z0-9_.]*)+)[ \t]*=.*[-=]>.*$/\3/f,function/
+  \ --regex-coffee=/^[ \t]*(([A-Za-z][A-Za-z0-9_.]*)+)[ \t]*=[^->\n]*$/\1/v,variable/
+  \ --regex-coffee=/^[ \t]*@(([A-Za-z][A-Za-z0-9_.]*)+)[ \t]*=[^->\n]*$/\1/f,field/
+  \ --regex-coffee=/^[ \t]*@(([A-Za-z][A-Za-z0-9_.]*)+):[^->\n]*$/\1/f,static field/
+  \ --regex-coffee=/^[ \t]*(([A-Za-z][A-Za-z0-9_.]*)+):[^->\n]*$/\1/f,field/
+  \ --regex-coffee=/((constructor|initialize):[ \t]*\()@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?/\3/f,field/
+  \ --regex-coffee=/((constructor|initialize):[ \t]*\()@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?(,[ \t]*@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?){0}/\8/f,field/
+  \ --regex-coffee=/((constructor|initialize):[ \t]*\()@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?(,[ \t]*@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?){1}/\8/f,field/
+  \ --regex-coffee=/((constructor|initialize):[ \t]*\()@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?(,[ \t]*@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?){2}/\8/f,field/
+  \ --regex-coffee=/((constructor|initialize):[ \t]*\()@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?(,[ \t]*@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?){3}/\8/f,field/
+  \ --regex-coffee=/((constructor|initialize):[ \t]*\()@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?(,[ \t]*@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?){4}/\8/f,field/
+  \ --regex-coffee=/((constructor|initialize):[ \t]*\()@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?(,[ \t]*@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?){5}/\8/f,field/
+  \ --regex-coffee=/((constructor|initialize):[ \t]*\()@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?(,[ \t]*@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?){6}/\8/f,field/
+  \ --regex-coffee=/((constructor|initialize):[ \t]*\()@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?(,[ \t]*@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?){7}/\8/f,field/
+  \ --regex-coffee=/((constructor|initialize):[ \t]*\()@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?(,[ \t]*@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?){8}/\8/f,field/
+  \ --regex-coffee=/((constructor|initialize):[ \t]*\()@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?(,[ \t]*@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?){9}/\8/f,field/'
+"let $CTAGS = substitute(s:ctags_opts, '\v\\([nst])', '\\\\\1', 'g')
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"let g:tagbar_ctags_bin="/home/mars/Dropbox/system/vim/plugins/ctags"
+let g:vimwiki_list = [
+\ {'path': '~/dd/wiki/main', 'ext': '.md', 'syntax': 'markdown', 'index': 'index', },
+\ {'path': '~/dev/www/mp/wiki', 'ext': '.md', 'syntax': 'markdown', 'index': 'index', 'custom_wiki2html': '/home/mars/.vim/plugins/vimwiki/misaka_md2html.py', 'css_name': 'style.css'},
+\ {'path': '~/dev/www/om/doc/wiki', 'ext': '.md', 'syntax': 'markdown', 'index': 'index', },
+\ {'path': '~/dd/wiki/cash', 'ext': '.md', 'syntax': 'markdown', 'index': 'index', },
+\ {'path': '~/dd/wiki/music', 'ext': '.md', 'syntax': 'markdown', 'index': 'index', },
+\ {'path': '~/dev/www/om/wiki', 'ext': '.md', 'syntax': 'markdown', 'index': 'index', },
+\ ]
+let g:vimwiki_global_ext = 0
+"set tags+=$HOME/zielonymagazyn/tags "tags
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:calendar_google_calendar = 1
+let g:calendar_google_task = 1
+let g:vimwiki_use_calendar = 1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Editing
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:rainbow_active = 1
+" comments for right filetype
+autocmd FileType javascript nnoremap <buffer> <leader>c I//<esc>
+autocmd FileType python     nnoremap <buffer> <leader>c I#<esc>
+"start and end of the line
+nnoremap <S-h> 0
+nnoremap <S-l> $
+"inoremap <S-h> 0
+"inoremap <S-l> $
 " disable arrow keys
 "map <up> <nop>
 "map <down> <nop>
@@ -94,13 +155,13 @@ set tags+=$HOME/zielonymagazyn/tags "tags
 map <C-B> <C-V>
 imap <C-B> <C-V>
 " commenting out lines
-nmap <Leader><Space> <Esc>:CtrlPBuffer<CR>
+nnoremap <Leader><Space> <Esc>:CtrlPBuffer<CR>
 imap <Leader>pp <C-r>+
 map <Leader>/ :s/^/#/<CR>
 map ]/ :s/\/\//<CR>
 " needs to be below arrows
-map ;j<Space>           <Esc>:w<CR><Esc>
-imap ;j<Space>           <Esc>:w<CR><Esc>
+noremap ;j<Space>           <Esc>:w<CR><Esc>
+inoremap ;j<Space>           <Esc>:w<CR><Esc>
 " Maps for jj to act as Esc
 ino kj <esc>
 ino kj <esc>
@@ -124,10 +185,10 @@ onoremap <leader>a <C-C>gggH<C-O>G
 snoremap <leader>a <C-C>gggH<C-O>G
 xnoremap <leader>a <C-C>ggVG
 " CTRL-Tab is Next window
-noremap <C-Tab> <esc>:bnext<cr>
-inoremap <C-Tab> <esc>:bnext<cr>
-cnoremap <C-Tab> <esc>:bnext<cr>
-onoremap <C-Tab> <esc>:bnext<cr>
+"noremap <C-Tab> <esc>:bnext<cr>
+"inoremap <C-Tab> <esc>:bnext<cr>
+"cnoremap <C-Tab> <esc>:bnext<cr>
+"onoremap <C-Tab> <esc>:bnext<cr>
 """""""""""""""""""""""""from msvim
 "django
 "imap wq {%%}<esc><left>i
@@ -138,7 +199,6 @@ onoremap <C-Tab> <esc>:bnext<cr>
 "set nowrap " don't wrap lines
 set tabstop=4 " tab is 4 spaces
 set expandtab
-set smarttab
 set smartindent    " smart indent of code - indent after opening '{',
 set autoindent
 set copyindent    " copy the previous indentation on autoindenting
@@ -148,7 +208,11 @@ set smarttab      " insert tabs on the start of a line according to  shiftwidth,
 " to jest do vimWiki
 set nocompatible
 filetype plugin indent on
-"set foldmethod=indent
+set foldmethod=indent
+nnoremap z<space> zR
+nnoremap <space> za
+vnoremap <space> zf
+set foldnestmax=2
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Python
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -160,10 +224,10 @@ syntax on
 "set keywordprg=!python "interpretor
 "map <F2> :ConqueTerm bpython manage.py shell<cr> "documentation (cursor needs to be on the subject of interest)
 let Tlist_Use_Right_Window = 1
-set omnifunc=pysmell#Complete
-autocmd FileType python set omnifunc=pysmell#Complete
+"set omnifunc=pysmell#Complete
+"autocmd FileType python set omnifunc=pysmell#Complete
 autocmd FileType python set omnifunc=pythoncomplete#Complete
-"let g:SuperTabDefaultCompletionType = "context"
+let g:SuperTabDefaultCompletionType = "context"
 set completeopt=menuone,longest,preview
 autocmd BufRead *.py inoremap # X<c-h>#<space>
 autocmd BufWritePre * :%s/\s\+$//e "remove all trailing whitespaces on save
@@ -179,7 +243,7 @@ autocmd BufWritePre * :%s/\s\+$//e "remove all trailing whitespaces on save
 " NAVIGATION keys
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " NERDTREE
-let g:NERDTreeBookmarksFile = expand($HOME.'/Dropbox/system/vim/.NERDTreeBookmarks')
+let g:NERDTreeBookmarksFile = expand($HOME.'/dd/system/vim/.NERDTreeBookmarks')
 let g:NERDTreeShowBookmarks = 1
 "let g:NERDTreeChDirMode = 1
 "let g:NERDTreeWinPos ="right"
@@ -188,9 +252,12 @@ let g:NERDTreeShowBookmarks = 1
 "let g:NERDTreeCaseSensitiveSort = 1
 "let g:NERDTreeQuitOnOpen = 1
 "let g:NERDTreeMouseMode=2
-"let g:NERDTreeIgnore=[
-"      \'\.pyc$', '\.pyo$', '\.py\$class$', '\.obj$',
-"      \ '\.o$', '\.so$', '\.egg$', '^\.git$', '^\.svn$' ]
+" NERDTree doesn't show C extensions files along with others !!!!!!!!!!!!!!!!1
+let g:NERDTreeIgnore = [
+\ '\.pyc$', '\.pyo$', '\.py\$class$', '\.obj$',
+\ '\.o$', '\.so$', '\.egg$', '^\.git$', '^\.svn$',
+\ '\.c$', '\.bak$', '\.back$', '^\.swp$',
+\ ]
 
 
 nnoremap <silent> <F8> :TlistToggle<CR>
@@ -204,8 +271,9 @@ noremap <silent> <F11> :cal VimCommanderToggle()<CR>
 nmap <F7> :set number!<CR>
 nmap <F8> :set paste!<CR>
 :autocmd BufNewFile * silent! 0r $HOME/.vim/templates/%:e.tpl
+"let g:flake8_ignore="E501"
 "for inserting blank lines
-nmap <S-Enter> O<Esc>
+"nmap <A-Enter> O<Esc>
 nmap <CR> o<Esc>k
 "for jumping to <+ marks
 nnoremap <c-j> /<+.\{-1,}+><cr>c/+>/e<cr>
@@ -254,6 +322,7 @@ function! s:CombineSelection(line1, line2, cp)
   execute 'let char = "\u'.a:cp.'"'
   execute a:line1.','.a:line2.'s/\%V[^[:cntrl:]]/&'.char.'/ge'
 endfunction
+let g:pydiction_location = '/home/mars/.vim/plugins/pydiction/complete-dict'
 " Remap code completion to Ctrl+Space {{{2
 "inoremap <S-N> <C-x><C-o>
 "super tab completion
