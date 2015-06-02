@@ -85,7 +85,7 @@ if !exists("g:pep8_select")
 endif
 " Skip errors and warnings (e.g. E4,W)
 if !exists("g:pep8_ignore")
-  let g:pep8_ignore="E501,E701,E221"
+  let g:pep8_ignore="E501,E701,E221,E241,E128"
 endif
 let s:match_group = 'Pep8'
 " }}}

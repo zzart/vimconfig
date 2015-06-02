@@ -30,8 +30,11 @@ set showmatch           "  show matching brace
 set showmode
 set ignorecase    " ignore case when searching
 set smartcase " if u search with upper case so be it otherwise use lower at all times
+" use regular regix instead escaping every single special character
 nnoremap / /\v
 vnoremap / /\v
+set incsearch
+set hlsearch
 set gdefault " this means GLOBAL -just type %s/search/replace/
 set scrolloff=7
 nnoremap <leader>m :noh<cr>
@@ -53,7 +56,7 @@ set clipboard+=unnamed
 set nobackup
 "set noswapfile "get rid of annoying swp files
 " crtlp
-let g:ctrlp_custom_ignore = '\.swp$\|\.git$\|\.hg$\|\.svn$\|\.pyc$' "this is for ctrlp plugin
+let g:ctrlp_custom_ignore = '\.swp$\|\.git$\|\.hg$\|\.svn$\|\.pyc$|unused$' "this is for ctrlp plugin
 set wildignore+=*/node/*,*/node_modules/*,*/libs/*,*.so,*.swp,*.zip,*.png,*.swf,*.pdf,*.eot,*.ttf,*.woff,*.bmp,*.svg,*.jpg,*.gif,*/userfiles/*,*/static/*,*.pyc
 let g:ctrlp_by_filename = 1
 let g:ctrlp_working_path_mode = 'r'
@@ -63,6 +66,9 @@ let g:ctrlp_working_path_mode = 'r'
 " no splash screen
 set shortmess+=I
 nnoremap <leader>a :Ack
+"status-line
+set laststatus=2
+let g:airline_theme="jellybeans"
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Source files
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -76,50 +82,19 @@ source ~/.vim/abrivations.vim
 "source ~/.vim/plugins/minibufexplorer/minibufexpl.vim
 "source ~/.vim/plugins/vimroom/vimroom.vim
 source ~/.vim/plugins/matchit/matchit.vim
-let Tlist_Ctags_Cmd = "/usr/bin/ctags"
-let g:ctags_statusline=1
-"tags for Coffeescrpt
+"let Tlist_Ctags_Cmd = "/usr/bin/ctags"
+"let g:ctags_statusline=1
+map <f12> :!ctags --languages=python -R .<cr>
+"set where the ctag file is
+set tags=tags
 "----------------------
-"let g:tagbar_type_coffee = {'ctagstype': 'coffee', 'kinds': ['c:classes' ,'m:methods' ,'f:functions', 'v:variables', 'f:fields',]}
-let g:tagbar_type_coffee = {
-    \ 'ctagstype' : 'coffee',
-    \ 'kinds'     : [
-        \ 'c:classes',
-        \ 'm:methods',
-        \ 'f:functions',
-        \ 'v:variables',
-        \ 'f:fields',
-    \ ]
-    \ }
-let s:ctags_opts = '
-  \ --langdef=coffee
-  \ --langmap=coffee:.coffee
-  \ --regex-coffee=/(^|=[ \t])*class ([A-Za-z_][A-Za-z0-9_]+\.)*([A-Za-z_][A-Za-z0-9_]+)( extends ([A-Za-z][A-Za-z0-9_.]*)+)?$/\3/c,class/
-  \ --regex-coffee=/^[ \t]*(module\.)?(exports\.)?@?(([A-Za-z][A-Za-z0-9_.]*)+):.*[-=]>.*$/\3/m,method/
-  \ --regex-coffee=/^[ \t]*(module\.)?(exports\.)?(([A-Za-z][A-Za-z0-9_.]*)+)[ \t]*=.*[-=]>.*$/\3/f,function/
-  \ --regex-coffee=/^[ \t]*(([A-Za-z][A-Za-z0-9_.]*)+)[ \t]*=[^->\n]*$/\1/v,variable/
-  \ --regex-coffee=/^[ \t]*@(([A-Za-z][A-Za-z0-9_.]*)+)[ \t]*=[^->\n]*$/\1/f,field/
-  \ --regex-coffee=/^[ \t]*@(([A-Za-z][A-Za-z0-9_.]*)+):[^->\n]*$/\1/f,static field/
-  \ --regex-coffee=/^[ \t]*(([A-Za-z][A-Za-z0-9_.]*)+):[^->\n]*$/\1/f,field/
-  \ --regex-coffee=/((constructor|initialize):[ \t]*\()@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?/\3/f,field/
-  \ --regex-coffee=/((constructor|initialize):[ \t]*\()@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?(,[ \t]*@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?){0}/\8/f,field/
-  \ --regex-coffee=/((constructor|initialize):[ \t]*\()@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?(,[ \t]*@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?){1}/\8/f,field/
-  \ --regex-coffee=/((constructor|initialize):[ \t]*\()@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?(,[ \t]*@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?){2}/\8/f,field/
-  \ --regex-coffee=/((constructor|initialize):[ \t]*\()@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?(,[ \t]*@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?){3}/\8/f,field/
-  \ --regex-coffee=/((constructor|initialize):[ \t]*\()@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?(,[ \t]*@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?){4}/\8/f,field/
-  \ --regex-coffee=/((constructor|initialize):[ \t]*\()@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?(,[ \t]*@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?){5}/\8/f,field/
-  \ --regex-coffee=/((constructor|initialize):[ \t]*\()@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?(,[ \t]*@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?){6}/\8/f,field/
-  \ --regex-coffee=/((constructor|initialize):[ \t]*\()@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?(,[ \t]*@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?){7}/\8/f,field/
-  \ --regex-coffee=/((constructor|initialize):[ \t]*\()@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?(,[ \t]*@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?){8}/\8/f,field/
-  \ --regex-coffee=/((constructor|initialize):[ \t]*\()@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?(,[ \t]*@(([A-Za-z][A-Za-z0-9_.]*)+)([ \t]*=[ \t]*[^,)]+)?){9}/\8/f,field/'
-"let $CTAGS = substitute(s:ctags_opts, '\v\\([nst])', '\\\\\1', 'g')
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "let g:tagbar_ctags_bin="/home/mars/Dropbox/system/vim/plugins/ctags"
 let g:vimwiki_list = [
 \ {'path': '~/dd/wiki/main', 'ext': '.md', 'syntax': 'markdown', 'index': 'index', },
 \ {'path': '~/dev/www/mp/wiki', 'ext': '.md', 'syntax': 'markdown', 'index': 'index', 'custom_wiki2html': '/home/mars/.vim/plugins/vimwiki/misaka_md2html.py', 'css_name': 'style.css'},
 \ {'path': '~/dev/www/om/doc/wiki', 'ext': '.md', 'syntax': 'markdown', 'index': 'index', },
 \ {'path': '~/dd/wiki/cash', 'ext': '.md', 'syntax': 'markdown', 'index': 'index', },
+\ {'path': '~/dev/www/mps/wiki/docs/', 'ext': '.md', 'syntax': 'markdown', 'index': 'index', },
 \ {'path': '~/dd/wiki/music', 'ext': '.md', 'syntax': 'markdown', 'index': 'index', },
 \ {'path': '~/dev/www/om/wiki', 'ext': '.md', 'syntax': 'markdown', 'index': 'index', },
 \ ]
@@ -144,7 +119,21 @@ nnoremap <S-l> $
 " disable arrow keys
 "map <up> <nop>
 "map <down> <nop>
-"map <left> <nop>
+"for going though help system
+nmap <silent> <left> :cprev<cr>
+nmap <silent> <left><left> :cpfile<cr><c-g>
+nmap <silent> <right> :cnext<cr>
+nmap <silent> <right><right> :cnfile<cr><c-g>
+"this function displays help in full window a suppose to split ...
+augroup HelpInFullWindow
+    autocmd!
+    autocmd BufEnter *.txt call HelpInFullWindowCall()
+augroup END
+function HelpInFullWindowCall ()
+    if &buftype == 'help'
+        execute "normal \<c-w>o"
+    endif
+endfunction
 "map <right> <nop>
 "imap <up> <nop>
 "imap <down> <nop>
@@ -156,6 +145,7 @@ map <C-B> <C-V>
 imap <C-B> <C-V>
 " commenting out lines
 nnoremap <Leader><Space> <Esc>:CtrlPBuffer<CR>
+nnoremap <Leader>. :CtrlPTag<cr>
 imap <Leader>pp <C-r>+
 map <Leader>/ :s/^/#/<CR>
 map ]/ :s/\/\//<CR>

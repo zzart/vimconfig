@@ -52,6 +52,10 @@ iabbr puuu @publishEvent('<+++>', "<+++>")
 iabbr xxx #{<+++>}
 iabbr qe <%=%><Esc>hi
 iabbr eq <%%><Esc>hi
+" documentation  read the docs style
+iabbr mdn <div class="admonition note"><p class="first admonition-title">Nota</p><p class="last"><+++></p></div>
+iabbr mdt <div class="admonition tip"><p class="first admonition-title">Wskazówka</p><p class="last"><+++></p></div>
+iabbr mdw <div class="admonition warning"><p class="first admonition-title">Uwaga</p><p class="last"><+++></p></div>
 "php ------------------------------------------------------------------------
 "iabbr if< <? if($<+++>): ?> <cr><cr> <? endif; ?><Esc>
 "iabbr foreach< <? foreach($<+++> -> result_array() as $row): ?><cr><cr><? endforeach; ?><Esc>
