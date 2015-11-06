@@ -124,16 +124,6 @@ nmap <silent> <left> :cprev<cr>
 nmap <silent> <left><left> :cpfile<cr><c-g>
 nmap <silent> <right> :cnext<cr>
 nmap <silent> <right><right> :cnfile<cr><c-g>
-"this function displays help in full window a suppose to split ...
-augroup HelpInFullWindow
-    autocmd!
-    autocmd BufEnter *.txt call HelpInFullWindowCall()
-augroup END
-function HelpInFullWindowCall ()
-    if &buftype == 'help'
-        execute "normal \<c-w>o"
-    endif
-endfunction
 "map <right> <nop>
 "imap <up> <nop>
 "imap <down> <nop>
@@ -143,15 +133,17 @@ endfunction
 "map <ESC> <nop>
 map <C-B> <C-V>
 imap <C-B> <C-V>
+" pasting
+nnoremap ;k<leader> "+p
 " commenting out lines
-nnoremap <Leader><Space> <Esc>:CtrlPBuffer<CR>
+nnoremap ,<Leader> <Esc>:CtrlPBuffer<CR>
 nnoremap <Leader>. :CtrlPTag<cr>
 imap <Leader>pp <C-r>+
 map <Leader>/ :s/^/#/<CR>
 map ]/ :s/\/\//<CR>
 " needs to be below arrows
-noremap ;j<Space>           <Esc>:w<CR><Esc>
-inoremap ;j<Space>           <Esc>:w<CR><Esc>
+noremap ;j<Leader>           <Esc>:w<CR><Esc>
+inoremap ;j<Leader>           <Esc>:w<CR><Esc>
 " Maps for jj to act as Esc
 ino kj <esc>
 ino kj <esc>
@@ -199,9 +191,9 @@ set smarttab      " insert tabs on the start of a line according to  shiftwidth,
 set nocompatible
 filetype plugin indent on
 set foldmethod=indent
-nnoremap z<space> zR
-nnoremap <space> za
-vnoremap <space> zf
+nnoremap z<leader> zR
+nnoremap <leader>a za
+vnoremap <leader>a zf
 set foldnestmax=2
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Python
