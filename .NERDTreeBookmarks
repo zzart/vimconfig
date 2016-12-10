@@ -5,9 +5,8 @@ mpsite /home/mars/dev/www/mpsite
 mspon /home/mars/dev/www/mspon
 mspon_t /home/mars/dev/www/mspon/wp/wp-content/themes/BLANK-Theme
 novum /home/mars/dev/www/novum
-om /home/mars/dev/www/om
 oms /home/mars/www/oms
 pixey /home/mars/dev/www/pixey
 sitev3 /home/mars/dev/ve/v3/lib/python3.3/site-packages
 zm /home/mars/dev/www/zielonymagazyn
-
+om /home/mars/dev/www/app_om/om

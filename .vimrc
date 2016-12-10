@@ -213,10 +213,13 @@ let g:SuperTabDefaultCompletionType = "context"
 set completeopt=menuone,longest,preview
 autocmd BufRead *.py inoremap # X<c-h>#<space>
 autocmd BufWritePre * :%s/\s\+$//e "remove all trailing whitespaces on save
+let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf_openframeworks.py"
+let g:ycm_collect_identifiers_from_tags_files = 1
+let g:ycm_key_invoke_completion = '<Leader-x>'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " lisp
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:slimv_swank_cmd = 'sbcl --load /home/mars/dev/lisp/start-swank.lisp &'
+let g:slimv_swank_cmd = 'sbcl --load /home/mars/dev/lisp/slime/start-swank.lisp &'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Coffescript
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
