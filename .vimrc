@@ -31,8 +31,9 @@ set showmode
 set ignorecase    " ignore case when searching
 set smartcase " if u search with upper case so be it otherwise use lower at all times
 " use regular regix instead escaping every single special character
-nnoremap / /\v
-vnoremap / /\v
+" turned off for pycharm
+"nnoremap / /\v
+"vnoremap / /\v
 set incsearch
 set hlsearch
 set gdefault " this means GLOBAL -just type %s/search/replace/
@@ -42,7 +43,7 @@ nnoremap <leader>m :noh<cr>
 "vnoremap <tab> %
 nnoremap j gj
 nnoremap k gk
-set cryptmethod=blowfish " set stronger encription
+set cryptmethod=blowfish2 " set stronger encription
 set printoptions=paper:A4,syntax:y,wrap:y
 " new in 7.3 .............................................
 " swp files
@@ -56,6 +57,8 @@ set clipboard+=unnamed
 set nobackup
 "set noswapfile "get rid of annoying swp files
 " crtlp
+nnoremap <Leader><space> <Esc>:CtrlPBuffer<CR>
+nnoremap m<space> :CtrlPTag<cr>
 let g:ctrlp_custom_ignore = '\.swp$\|\.git$\|\.hg$\|\.svn$\|\.pyc$|unused$' "this is for ctrlp plugin
 set wildignore+=*/node/*,*/node_modules/*,*/libs/*,*.so,*.swp,*.zip,*.png,*.swf,*.pdf,*.eot,*.ttf,*.woff,*.bmp,*.svg,*.jpg,*.gif,*/userfiles/*,*/static/*,*.pyc
 let g:ctrlp_by_filename = 1
@@ -86,16 +89,17 @@ source ~/.vim/plugins/matchit/matchit.vim
 "let g:ctags_statusline=1
 map <f12> :!ctags --languages=python -R .<cr>
 "set where the ctag file is
-set tags=tags
+set tags=tags;/
+let g:autotagTagsFile=getcwd()."/tags"
 "----------------------
 "let g:tagbar_ctags_bin="/home/mars/Dropbox/system/vim/plugins/ctags"
 let g:vimwiki_list = [
-\ {'path': '~/dd/wiki/main', 'ext': '.md', 'syntax': 'markdown', 'index': 'index', },
+\ {'path': '~/Dropbox/wiki/main', 'ext': '.md', 'syntax': 'markdown', 'index': 'index', },
 \ {'path': '~/dev/www/mp/wiki', 'ext': '.md', 'syntax': 'markdown', 'index': 'index', 'custom_wiki2html': '/home/mars/.vim/plugins/vimwiki/misaka_md2html.py', 'css_name': 'style.css'},
 \ {'path': '~/dev/www/om/doc/wiki', 'ext': '.md', 'syntax': 'markdown', 'index': 'index', },
-\ {'path': '~/dd/wiki/cash', 'ext': '.md', 'syntax': 'markdown', 'index': 'index', },
+\ {'path': '~/Dropbox/wiki/cash', 'ext': '.md', 'syntax': 'markdown', 'index': 'index', },
 \ {'path': '~/dev/www/mps/wiki/docs/', 'ext': '.md', 'syntax': 'markdown', 'index': 'index', },
-\ {'path': '~/dd/wiki/music', 'ext': '.md', 'syntax': 'markdown', 'index': 'index', },
+\ {'path': '~/Dropbox/wiki/music', 'ext': '.md', 'syntax': 'markdown', 'index': 'index', },
 \ {'path': '~/dev/www/om/wiki', 'ext': '.md', 'syntax': 'markdown', 'index': 'index', },
 \ ]
 let g:vimwiki_global_ext = 0
@@ -136,8 +140,6 @@ imap <C-B> <C-V>
 " pasting
 nnoremap ;k<space> "+p
 " commenting out lines
-nnoremap <Leader><space> <Esc>:CtrlPBuffer<CR>
-nnoremap <Leader>. :CtrlPTag<cr>
 imap <Leader>pp <C-r>+
 map <Leader>/ :s/^/#/<CR>
 map ]/ :s/\/\//<CR>
@@ -182,29 +184,23 @@ xnoremap <leader>a <C-C>ggVG
 set tabstop=4 " tab is 4 spaces
 set expandtab
 set smartindent    " smart indent of code - indent after opening '{',
-set autoindent
 set copyindent    " copy the previous indentation on autoindenting
 set shiftwidth=4  " number of spaces to use for autoindenting
 set shiftround    " use multiple of shiftwidth when indenting with '<' and '>'
 set smarttab      " insert tabs on the start of a line according to  shiftwidth, not tabstop
 " to jest do vimWiki
 set nocompatible
-filetype plugin indent on
-set foldmethod=indent
-nnoremap z<space> zR
+"filetype plugin indent on
+"set foldmethod=indent
+nnoremap <space>z zR
 nnoremap <space>a za
 vnoremap <space>a zf
-set foldnestmax=2
+set foldnestmax=99
+"let g:SimpylFold_docstring_preview = 1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Python
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 syntax on
-"this replaces spaces with dots during writing
-"autocmd FileType python set list
-"autocmd FileType python set listchars=tab:>.,trail:.,extends:#,nbsp:.
-"map <F3> :!python %<cr>  "interpretor
-"set keywordprg=!python "interpretor
-"map <F2> :ConqueTerm bpython manage.py shell<cr> "documentation (cursor needs to be on the subject of interest)
 let Tlist_Use_Right_Window = 1
 "set omnifunc=pysmell#Complete
 "autocmd FileType python set omnifunc=pysmell#Complete
@@ -213,9 +209,23 @@ let g:SuperTabDefaultCompletionType = "context"
 set completeopt=menuone,longest,preview
 autocmd BufRead *.py inoremap # X<c-h>#<space>
 autocmd BufWritePre * :%s/\s\+$//e "remove all trailing whitespaces on save
-let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf_openframeworks.py"
+"let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf_openframeworks.py"
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_key_invoke_completion = '<Leader-x>'
+let g:ycm_autoclose_preview_window_after_completion=1
+let g:ycm_python_binary_path = 'python'  "python with virtualenv support
+"CTRL-O to jump back, CTRL-I to jump forward
+map <space>s  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+map <space>d  :YcmCompleter GoTo<CR>
+let g:autopep8_ignore="E121,E123,E501,E20,E211"
+let g:autopep8_cmd="autopep8-3"
+let g:autopep8_disable_show_diff=1
+autocmd BufWritePost *.py call Autopep8()  " call on each save
+"let g:autopep8_diff_type='vertical'
+"au BufNewFile,BufRead *.py
+"    \ set autoindent
+"    \ set fileformat=unix
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " lisp
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -232,7 +242,7 @@ let g:slimv_swank_cmd = 'sbcl --load /home/mars/dev/lisp/slime/start-swank.lisp 
 " NAVIGATION keys
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " NERDTREE
-let g:NERDTreeBookmarksFile = expand($HOME.'/dd/system/vim/.NERDTreeBookmarks')
+let g:NERDTreeBookmarksFile = expand($HOME.'/Dropbox/system/vim/.NERDTreeBookmarks')
 let g:NERDTreeShowBookmarks = 1
 "let g:NERDTreeChDirMode = 1
 "let g:NERDTreeWinPos ="right"
@@ -247,20 +257,18 @@ let g:NERDTreeIgnore = [
 \ '\.o$', '\.so$', '\.egg$', '^\.git$', '^\.svn$',
 \ '\.c$', '\.bak$', '\.back$', '^\.swp$',
 \ ]
+nmap <F3> :call PareditToggle()<CR>
+nmap <F4> :NERDTreeToggle<CR>
 
 
-nnoremap <silent> <F8> :TlistToggle<CR>
 nmap <F5> :TagbarToggle<CR>
-nmap m<space> :NERDTreeToggle<CR>
 autocmd BufEnter * lcd %:p:h
 "nmap <silent> <F6> <Leader>mbt<CR>
-nmap <silent> <F6> :TagbarToggle<CR>
 "borwser
 noremap <silent> <F11> :cal VimCommanderToggle()<CR>
 nmap <F7> :set number!<CR>
 nmap <F8> :set paste!<CR>
 :autocmd BufNewFile * silent! 0r $HOME/.vim/templates/%:e.tpl
-"let g:flake8_ignore="E501"
 "for inserting blank lines
 "nmap <A-Enter> O<Esc>
 nmap <CR> o<Esc>k
@@ -311,53 +319,3 @@ function! s:CombineSelection(line1, line2, cp)
   execute 'let char = "\u'.a:cp.'"'
   execute a:line1.','.a:line2.'s/\%V[^[:cntrl:]]/&'.char.'/ge'
 endfunction
-let g:pydiction_location = '/home/mars/.vim/plugins/pydiction/complete-dict'
-" Remap code completion to Ctrl+Space {{{2
-"inoremap <S-N> <C-x><C-o>
-"super tab completion
-"let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
-"how to do omni ??
-        "nmap <silent> <F12> <Plug>ToggleProject
-"let potwiki_home = "$HOME/Documents/wiki"
-"nmap \wh <Plug>PotwikiHome
-"let potwiki_other = 'w_*'
-" TA LINIA WYLANCZA WIKI PLUGIN ... NIE WIEM CZEMU ALE PLUGIN UNIEMOZLIWIA HIGHLIGHTING . JESLI WIKI MA CHODZIC TO WSTAW KOMANTARZ NA MIEJSCE
-"let loaded_potwiki = 1
-" scieżka referencji do syntaxu processing
-"let pref="/home/mars/Documents/programing/processing-1.1/reference/"
-"folds
-"map zR za
-"map zM zx
-"map <F2> <Leader>pw
-":let $DJANGO_SETTINGS_MODULE='zielonymagazyn.settings'
-"autocmd FileType python set complete+=k~/.vim/syntax/python.vim isk+=.,(
-"autocmd FileType python set omnifunc=pythoncomplete#Complete
-"let g:pydiction_location = '/home/mars/.vim/pydiction/complete-dict'
-"
-"this is for auto closing brackets
-":imap ( ()<left>
-":imap { {}<left>
-"
-" YoU Might also find this useful
-" PHP Generated Code Highlights (HTML & SQL)
-"
-"autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-"autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-"autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-"autocmd FileType sql set omnifunc=sqlcomplete#Complete
-"php interpreter
-"map <C-B> :!php -l %
-"nerdtree! , line nrs and tags
-" php options
-"let php_htmlInStrings=1
-"let php_sql_query=1
-"let php_folding = 1
-"--- windowing -----------------
-" be able to scroll through opened files easily with ctrl+j/k
-"let g:miniBufExplMapWindowNavVim = 1
-"---------------------------------------------------
-"--<F keys> except python related-------------------
-"---------------------------------------------------
-"mamy 2 wiki każda musi być wylistowana w oddzielnych nawiasach
-"reload vimrc
-"cno <F3> :so /home/mars/.vimrc

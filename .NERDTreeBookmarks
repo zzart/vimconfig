@@ -1,12 +1,12 @@
-czarno /home/mars/dev/www/czarnowiejskie
-mp /home/mars/dev/www/mp
-mps /home/mars/dev/www/mps
-mpsite /home/mars/dev/www/mpsite
-mspon /home/mars/dev/www/mspon
-mspon_t /home/mars/dev/www/mspon/wp/wp-content/themes/BLANK-Theme
-novum /home/mars/dev/www/novum
-oms /home/mars/www/oms
-pixey /home/mars/dev/www/pixey
-sitev3 /home/mars/dev/ve/v3/lib/python3.3/site-packages
-zm /home/mars/dev/www/zielonymagazyn
-om /home/mars/dev/www/app_om/om
+czarno ~/dev/www/czarnowiejskie
+iterio ~/dev/iterio
+mp ~/dev/www/mp
+mps ~/dev/www/mps
+mspon ~/dev/www/mspon
+pixey ~/dev/www/pixey
+
+novum ~/dev/www/novum
+om ~/dev/www/app_om/om
+zm ~/dev/www/zielonymagazyn
+mpsite ~/dev/www/mpsite
+oms ~/dev/www/oms
